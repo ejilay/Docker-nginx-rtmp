@@ -17,7 +17,7 @@ The configuration file is in /opt/nginx/conf/
 
 To run the container and bind the port 1935 to the host machine; run the following:
 ```
-docker run -e RTMP_PORT=1935 -p 1935:1935 -e HTTP_PORT=8080 -p 8080:8080 ejilay/nginx-rtmp
+$ docker run -d --name nginx-rtmp -p 1935:1935 -p 8080:8080 -v `pwd`/hls:/var/www/streams -t ejilay/nginx-rtmp
 ```
 
 ### OBS Configuration
