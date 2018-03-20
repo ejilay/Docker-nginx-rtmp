@@ -1,0 +1,30 @@
+rtmp_auto_push on;
+
+rtmp {
+
+	server {
+        access_log /dev/stdout;
+
+		listen ${RTMP_PORT};
+
+		application streams {
+
+            live on;
+
+            wait_key on;
+            wait_video on;
+            interleave on;
+
+            hls on;
+            hls_fragment 3;
+            hls_playlist_length 9;
+            hls_path /var/www/streams;
+            hls_nested on;
+            hls_fragment_naming system;
+            hls_continuous on;
+            hls_type live;
+            hls_cleanup on;
+         }
+
+	}
+}

@@ -1,18 +1,16 @@
-FROM alpine:latest
+FROM    alpine:latest
+
 MAINTAINER Ilya Baturin <ivbaturin@gmail.com>
 
-RUN	apk update		&&	\
-	apk add				\
-		openssl			\
-		libstdc++		\
-		ca-certificates		\
-		pcre
+RUN apk update && apk --no-cache add gettext curl openssl libstdc++ ca-certificates pcre
 
+ENTRYPOINT ["/opt/nginx/bin/run.sh"]
+
+ENV RTMP_PORT=1935 \
+    HTTP_PORT=8080
+
+EXPOSE ${RTMP_PORT} \
+       ${HTTP_PORT}
 
 ADD	nginx.tar.gz /opt/
-ADD	nginx.conf /opt/nginx/conf/nginx.conf
-
-EXPOSE 1935
-EXPOSE 8080
-
-CMD ["/opt/nginx/sbin/nginx", "-g", "daemon off;"]
+COPY nginx/ /opt/nginx/

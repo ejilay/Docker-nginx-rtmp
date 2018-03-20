@@ -1,0 +1,21 @@
+server {
+        listen       ${HTTP_PORT};
+
+        location /control {
+            rtmp_control all;
+        }
+
+        location /stat {
+            rtmp_stat all;
+        }
+
+        location /streams {
+            alias /var/www/streams;
+            default_type  application/octet-stream;
+            types {
+                application/vnd.apple.mpegurl m3u8;
+                video/MP2T ts;
+            }
+        }
+
+     }

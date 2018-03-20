@@ -3,6 +3,9 @@ MAINTAINER Jason Rivers <docker@jasonrivers.co.uk>
 
 # https://github.com/sergey-dryabzhinsky/nginx-rtmp-module/issues/127
 ENV NGINX_VERSION 1.9.10
+ENV RTMP_MODULE_VERSION 1.2.1
+
+WORKDIR /tmp
 
 RUN	apk update		&&	\
 	apk add				\
@@ -34,17 +37,16 @@ RUN	apk update		&&	\
 		make
 
 
-RUN	cd /tmp/									&&	\
-	wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz			&&	\
-	git clone https://github.com/arut/nginx-rtmp-module.git
+RUN	wget https://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz			&&	\
+	wget https://github.com/arut/nginx-rtmp-module/archive/v${RTMP_MODULE_VERSION}.tar.gz
 
-RUN	cd /tmp										&&	\
-	tar xzf nginx-${NGINX_VERSION}.tar.gz						&&	\
-	cd nginx-${NGINX_VERSION}							&&	\
+RUN tar xzf v${RTMP_MODULE_VERSION}.tar.gz
+RUN	tar xzf nginx-${NGINX_VERSION}.tar.gz
+RUN	cd nginx-${NGINX_VERSION}							&&	\
 	./configure										\
 		--prefix=/opt/nginx								\
 		--with-http_ssl_module								\
-		--add-module=../nginx-rtmp-module					&&	\
+		--add-module=../nginx-rtmp-module-${RTMP_MODULE_VERSION}					&&	\
 	make										&&	\
 	make install
 

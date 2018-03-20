@@ -1,1 +1,5 @@
 .idea/
+/nginx.conf
+/nginx.tar.gz
+.DS_Store
+hls/
