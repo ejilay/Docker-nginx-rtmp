@@ -9,15 +9,20 @@ This image exposes port 1935 for RTMP Steams and has channel open "streams".
 
 "streams" is also accessable via HLS on port 8080
 
-It also exposes 8080 so you can access http://<your server ip>:8080/stat to see the streaming statistics.
+It also exposes 8080 so you can access `http://<your server ip>:8080/stat` to see the streaming statistics.
 
 The configuration file is in /opt/nginx/conf/
 
 ### Running
 
-To run the container and bind the port 1935 to the host machine; run the following:
+To run the container and bind the ports `rtmp:1935`, `http:8080` and hls folder to `.hls` to the host machine; run the following:
+```bash
+$ docker run -d --name nginx-rtmp -e RTMP_PORT=1935 -p 1935:1935 -e HTTP_PORT=8081 -p 8081:8081 -v `pwd`/hls:/var/www/streams -t nginx-rtmp
 ```
-$ docker run -d --name nginx-rtmp -p 1935:1935 -p 8080:8080 -v `pwd`/hls:/var/www/streams -t ejilay/nginx-rtmp
+
+To mount config folder to docker:
+```bash
+$ docker run -d --name nginx-rtmp -e RTMP_PORT=1935 -p 1935:1935 -e HTTP_PORT=8081 -p 8081:8081 -v `pwd`/hls:/var/www/streams -v /path/to/config_folder:/opt/nginx/conf -t nginx-rtmp
 ```
 
 ### OBS Configuration
